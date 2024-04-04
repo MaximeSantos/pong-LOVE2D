@@ -25,11 +25,4 @@ function GameState:update(dt)
 end
 
 function GameState:draw()
-   love.graphics.printf(
-      tostring(self.is_started),
-      0,
-      (love.graphics.getHeight() / 2) - (FONT_SIZE * 4),
-      love.graphics.getWidth(),
-      "center"
-   )
 end

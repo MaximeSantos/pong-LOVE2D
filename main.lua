@@ -2,6 +2,7 @@ require("player")
 require("ball")
 require("ui")
 require("gamestate")
+require("debugger")
 
 FONT_SIZE = 16
 
@@ -16,6 +17,7 @@ function love.load()
    Player:load()
    Ball:load()
    GameState:load()
+   Debugger:load()
 end
 
 function love.update(dt)
@@ -32,4 +34,5 @@ function love.draw()
    Player:draw()
    Ball:draw()
    GameState:draw()
+   Debugger:draw()
 end

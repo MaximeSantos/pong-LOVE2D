@@ -10,8 +10,8 @@ Ball = {
 
 -- Helper functions
 function Ball:move(dt)
-   self.x = self.x + ((self.dx * dt) * self.speed)
-   self.y = self.y + ((self.dy * dt) * self.speed)
+   self.x = self.x + (self.speed * (self.dx * dt))
+   self.y = self.y + (self.speed * (self.dy * dt))
 end
 
 function Ball:checkBoundaries()
@@ -31,7 +31,7 @@ function Ball:load()
    self.dx = 0
    self.dy = 0
    self.direction = 270
-   self.speed = 0
+   self.speed = 300
 end
 
 function Ball:update(dt)
