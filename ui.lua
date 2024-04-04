@@ -1,9 +1,9 @@
 Ui = {}
 
 -- Helper functions
-function Ui:drawPressToStart(is_started) -- Draws "Press UP/DOWN to start" when the game hasn't started yet
+function Ui:drawPressToStart() -- Draws "Press UP/DOWN to start" when the game hasn't started yet
    -- Draw some text in the center of the screen
-   if not is_started then
+   if not GameState.is_started then
       love.graphics.setColor(1, 1, 1)
       love.graphics.printf(
          "Press UP/DOWN to start",
@@ -22,6 +22,6 @@ end
 function Ui:update(dt)
 end
 
-function Ui:draw(is_started)
-   Ui:drawPressToStart(is_started)
+function Ui:draw()
+   Ui:drawPressToStart(GameState.is_started)
 end

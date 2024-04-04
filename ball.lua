@@ -9,11 +9,9 @@ Ball = {
 }
 
 -- Helper functions
-function Ball:move(dt, is_started)
-   if is_started then
-      self.x = self.x + (self.dx * dt) * self.speed
-      self.y = self.y + (self.dy * dt) * self.speed
-   end
+function Ball:move(dt)
+   self.x = self.x + ((self.dx * dt) * self.speed)
+   self.y = self.y + ((self.dy * dt) * self.speed)
 end
 
 function Ball:checkBoundaries()
@@ -36,9 +34,9 @@ function Ball:load()
    self.speed = 0
 end
 
-function Ball:update(dt, is_started)
-   if is_started then
-      Ball:move(dt, is_started)
+function Ball:update(dt)
+   if GameState.is_started then
+      Ball:move(dt)
       Ball:checkBoundaries(dt)
    end
 end

@@ -1,43 +1,35 @@
 require("player")
 require("ball")
 require("ui")
+require("gamestate")
 
 FONT_SIZE = 16
 
-local is_started = false
-
 -- Helper functions
-function checkStartOfGame(is_started)
-   if not is_started then
-      if Player:checkPlayerInput() then
-         return true
-      end
-   end
-   return false
-end
 
 -- Core functions
 function love.load()
    -- Settings not in conf.lua
    love.graphics.setDefaultFilter("nearest", "nearest")
 
+   Ui:load()
    Player:load()
    Ball:load()
+   GameState:load()
 end
 
 function love.update(dt)
+   Ui:update(dt)
    Player:update(dt)
-   Ball:update(dt, is_started)
+   Ball:update(dt)
+   GameState:update(dt)
 
-   -- FIX Get this into a function
-   if checkStartOfGame(is_started) then
-      is_started = true
-      Ball:startMoving(-1)
-   end
+   GameState:checkStartOfGame()
 end
 
 function love.draw()
-   Ui:draw(is_started)
+   Ui:draw()
    Player:draw()
    Ball:draw()
+   GameState:draw()
 end

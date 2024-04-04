@@ -41,8 +41,8 @@ function Player:load()
    self.speed = 500
 end
 
-function Player:update(dt, is_started)
-   if is_started then
+function Player:update(dt)
+   if GameState.is_started then
       Player:move(dt)
       Player:checkBoundaries(dt)
    end
