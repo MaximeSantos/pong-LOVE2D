@@ -19,6 +19,10 @@ function Ball:collide() --
    if checkCollisions(self, Player) then
       Ball:bouncePlayer(Player)
    end
+   -- Checks for Ai collision -- TODO Improve because the ball probably goes deeper inside the paddle for the ai
+   if checkCollisions(self, Ai) then
+      Ball:bouncePlayer(Ai)
+   end
 
    -- Checks for wall collision
    Ball:bounceWalls()
