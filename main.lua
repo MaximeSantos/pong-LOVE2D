@@ -1,29 +1,43 @@
 require("player")
+require("ball")
+require("ui")
 
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
+FONT_SIZE = 16
 
+local is_started = false
+
+-- Helper functions
+function checkStartOfGame(is_started)
+   if not is_started then
+      if Player:checkPlayerInput() then
+         return true
+      end
+   end
+   return false
+end
+
+-- Core functions
 function love.load()
-   -- Settings
-   love.window.setTitle("Pong LÖVE2D")
+   -- Settings not in conf.lua
    love.graphics.setDefaultFilter("nearest", "nearest")
-   love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {fullscreen = false, resizable = false, vsync = true})
 
-   -- Load the player
    Player:load()
+   Ball:load()
 end
 
 function love.update(dt)
-   -- Update the player
    Player:update(dt)
+   Ball:update(dt, is_started)
+
+   -- FIX Get this into a function
+   if checkStartOfGame(is_started) then
+      is_started = true
+      Ball:startMoving(-1)
+   end
 end
 
 function love.draw()
-   -- Draw some text in the center of the screen
-   love.graphics.setColor(1, 1, 1)
-   love.graphics.printf("Hello World !", 0, WINDOW_HEIGHT / 2 - 16, WINDOW_WIDTH, "center")
-   love.graphics.printf("Welcome to Pong in lua with LÖVE2D", 0, WINDOW_HEIGHT / 2, WINDOW_WIDTH, "center")
-
-   -- Draw the player
+   Ui:draw(is_started)
    Player:draw()
+   Ball:draw()
 end

@@ -7,7 +7,7 @@ Player = {
 }
 
 -- Helper functions
-function Player:move(dt)
+function Player:move(dt) -- Checks for player input and set player position accordingly
    if love.keyboard.isDown("w") or love.keyboard.isDown("z") then
       self.y = self.y - self.speed * dt
    elseif love.keyboard.isDown("s") then
@@ -15,26 +15,37 @@ function Player:move(dt)
    end
 end
 
-function Player:checkBoundaries()
+function Player:checkBoundaries() -- Checks if the player encounters a wall and sets its position accordingly
+   local w_height = love.graphics.getHeight()
    if self.y < 0 then
       self.y = 0
-   elseif self.y + self.height > WINDOW_HEIGHT then
-      self.y = WINDOW_HEIGHT - self.height
+   elseif self.y + self.height > w_height then
+      self.y = w_height - self.height
    end
+end
+
+function Player:checkPlayerInput() -- Checks for player 1 input
+   if love.keyboard.isDown("w") or love.keyboard.isDown("z") or love.keyboard.isDown("s") then
+      return true
+   end
+   return false
 end
 
 -- Core functions
 function Player:load()
+   -- Set default player values
    self.width = 20
    self.height = 100
    self.x = 50
-   self.y = (WINDOW_HEIGHT) / 2 - (self.height / 2)
+   self.y = (love.graphics.getHeight()) / 2 - (self.height / 2)
    self.speed = 500
 end
 
-function Player:update(dt)
-   Player:move(dt)
-   Player:checkBoundaries(dt)
+function Player:update(dt, is_started)
+   if is_started then
+      Player:move(dt)
+      Player:checkBoundaries(dt)
+   end
 end
 
 function Player:draw()
