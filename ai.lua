@@ -44,10 +44,8 @@ function Ai:load()
 end
 
 function Ai:update(dt)
-   if GameState.is_started then
-      -- Ai:move(dt)
-      Ai:checkBoundaries(dt)
-   end
+   Ai:move(dt)
+   Ai:checkBoundaries(dt)
 end
 
 function Ai:draw()

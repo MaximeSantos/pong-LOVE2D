@@ -46,10 +46,8 @@ function Player:load()
 end
 
 function Player:update(dt)
-   if GameState.is_started then
-      Player:move(dt)
-      Player:checkBoundaries(dt)
-   end
+   Player:move(dt)
+   Player:checkBoundaries(dt)
 end
 
 function Player:draw()

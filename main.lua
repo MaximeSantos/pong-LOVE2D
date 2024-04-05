@@ -8,8 +8,8 @@ require("debugger")
 FONT_SIZE = 16
 
 -- Helper functions
+-- TODO FIX Bug when handling hit detection on left player (ball coming from low angle, sliding off then through the paddle)
 function checkCollisions(a, b) -- Checks for collisions between two objects with x, y, width and height properties
-   --
    if a.x < b.x + b.width and a.x + a.width > b.x and a.y < b.y + b.height and a.y + a.height > b.y then
       return true
    end
@@ -30,13 +30,15 @@ function love.load()
 end
 
 function love.update(dt)
+   GameState:checkStartOfGame()
    Ui:update(dt)
-   Player:update(dt)
-   Ai:update(dt)
-   Ball:update(dt)
    GameState:update(dt)
 
-   GameState:checkStartOfGame()
+   if GameState.is_started then
+      Player:update(dt)
+      Ai:update(dt)
+      Ball:update(dt)
+   end
 end
 
 function love.draw()

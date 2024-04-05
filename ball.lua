@@ -5,7 +5,8 @@ Ball = {
    dy,
    width,
    height,
-   speed
+   speed,
+   hits
 }
 
 -- Helper functions
@@ -14,14 +15,14 @@ function Ball:move(dt)
    self.y = self.y + (self.speed * (self.dy * dt))
 end
 
-function Ball:collide() --
+function Ball:collide() -- Logic that handles the different ball collisions (left/right paddles, top/bottom walls and left/right goals)
    -- Checks for Player collision
    if checkCollisions(self, Player) then
-      Ball:bouncePlayer(Player)
+      Ball:bouncePaddle(Player)
    end
    -- Checks for Ai collision -- TODO Improve because the ball probably goes deeper inside the paddle for the ai
    if checkCollisions(self, Ai) then
-      Ball:bouncePlayer(Ai)
+      Ball:bouncePaddle(Ai)
    end
 
    -- Checks for wall collision
@@ -34,17 +35,30 @@ function Ball:collide() --
    end
 end
 
--- TODO Improve handling of the bounce by including Player velocity (not yet implemented)
-function Ball:bouncePlayer(Player) -- Bouces the ball off the player paddle
-   self.dx = -self.dx
+function Ball:handleBallSpeed() -- Increments the number of hits and increase the ball speed if there have been 3 consecutive hits
+   self.hits = self.hits + 1
+   if self.hits >= 3 then
+      self.speed = self.speed + 100
+      self.hits = 0
+   end
+end
+
+function Ball:handleBounceAngle(Paddle) -- Handles the angle to give to the ball if it was going straight
    if self.dy == 0 then
-      local collision = (self.y + self.height / 2) - (Player.y + Player.height / 2)
+      local collision = (self.y + self.height / 2) - (Paddle.y + Paddle.height / 2)
       if collision > 0 then
          self.dy = 1
       elseif collision < 0 then
          self.dy = -1
       end
    end
+end
+
+-- TODO Improve handling of the bounce by including Player velocity (not yet implemented)
+function Ball:bouncePaddle(Paddle) -- Bouces the ball off the paddle - give it an object with y and height properties
+   Ball:handleBallSpeed()
+   self.dx = -self.dx -- Reverses the direction of the ball
+   Ball:handleBounceAngle(Paddle)
 end
 
 function Ball:bounceWalls() -- Checks if the ball is hitting the borders and reverses its vertical velocity if that's the case
@@ -77,6 +91,7 @@ function Ball:reset() -- Set default ball values
    self.dx = 0
    self.dy = 0
    self.speed = 300
+   self.hits = 0
 end
 
 -- Core functions
@@ -86,11 +101,8 @@ function Ball:load()
 end
 
 function Ball:update(dt)
-   if GameState.is_started then
-      Ball:move(dt)
-      -- Ball:checkBoundaries(dt)
-      Ball:collide()
-   end
+   Ball:move(dt)
+   Ball:collide()
 end
 
 function Ball:draw()
