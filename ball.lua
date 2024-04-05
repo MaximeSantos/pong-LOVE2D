@@ -43,9 +43,12 @@ function Ball:handleBallSpeed() -- Increments the number of hits and increase th
    end
 end
 
+-- TODO the bounce angle of the ball should probably be determined by the paddle velocity ?
+-- eg: if the paddle is not moving and it hits around the center, the ball should probably fly straight
+-- Whereas hitting the ball with a moving paddle should probably alway make the ball bounce at an angle
 function Ball:handleBounceAngle(Paddle) -- Handles the angle to give to the ball if it was going straight
    if self.dy == 0 then
-      local collision = (self.y + self.height / 2) - (Paddle.y + Paddle.height / 2)
+      local collision = (self.y + self.height / 2) - (Paddle.y + Paddle.height / 2) -- center of the ball on y axis - center of paddle on y axis
       if collision > 0 then
          self.dy = 1
       elseif collision < 0 then
@@ -54,7 +57,6 @@ function Ball:handleBounceAngle(Paddle) -- Handles the angle to give to the ball
    end
 end
 
--- TODO Improve handling of the bounce by including Player velocity (not yet implemented)
 function Ball:bouncePaddle(Paddle) -- Bouces the ball off the paddle - give it an object with y and height properties
    Ball:handleBallSpeed()
    self.dx = -self.dx -- Reverses the direction of the ball
