@@ -11,10 +11,7 @@ local font
 -- Helper functions
 -- TODO FIX Bug when handling hit detection on left player (ball coming from low angle, sliding off then through the paddle)
 function checkEntitiesCollisions(a, b) -- Checks for collisions between two objects with x, y, width and height properties
-   if a.x < b.x + b.width and a.x + a.width > b.x and a.y < b.y + b.height and a.y + a.height > b.y then
-      return true
-   end
-   return false
+   return a.x < b.x + b.width and a.x + a.width > b.x and a.y < b.y + b.height and a.y + a.height > b.y
 end
 
 -- Core functions

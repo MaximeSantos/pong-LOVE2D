@@ -37,8 +37,8 @@ end
 
 function Ball:handleBallSpeed() -- Increments the number of hits and increase the ball speed if there have been 3 consecutive hits
    self.hits = self.hits + 1
-   if self.hits >= 2 then
-      self.speed = self.speed + 50
+   if self.hits > 2 then
+      self.speed = self.speed + 100
       self.hits = 0
    end
 end
@@ -59,14 +59,25 @@ end
 
 function Ball:bouncePaddle(Paddle) -- Bouces the ball off the paddle - give it an object with y and height properties
    Ball:handleBallSpeed()
+
+   if self.x < love.graphics.getWidth() / 2 then -- Places the ball outside of the paddle
+      self.x = Paddle.x + Paddle.width
+   else
+      self.x = Paddle.x - Paddle.width
+   end
+
    self.dx = -self.dx -- Reverses the direction of the ball
    Ball:handleBounceAngle(Paddle)
 end
 
-function Ball:bounceWalls() -- Checks if the ball is hitting the borders and reverses its vertical velocity if that's the case
-   if self.y + self.height > love.graphics.getHeight() and self.dy > 0 then -- checks bottom wall
+function Ball:bounceWalls() -- Checks if the ball is hitting the borders and repositions the ball and reverses its vertical velocity if it is hitting a wall
+   local w_height = love.graphics.getHeight()
+
+   if self.y + self.height > w_height then -- checks bottom wall
+      self.y = w_height - self.height
       self.dy = -self.dy
-   elseif self.y < 0 and self.dy < 0 then -- check top wall
+   elseif self.y < 0 then -- check top wall
+      self.y = 0
       self.dy = -self.dy
    end
 end
@@ -98,7 +109,7 @@ function Ball:reset() -- Set default ball values
    self.y = love.math.random(0, love.graphics.getHeight() - self.height)
    self.dx = 0
    self.dy = 0
-   self.speed = 600
+   self.speed = 500
    self.hits = 0
 end
 
