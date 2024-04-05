@@ -15,11 +15,27 @@ end
 
 function Ui:drawScores()
    love.graphics.setFont(score_font)
-   local centerSpace = w_width / 8
+   local center_margin = w_width / 8
    -- Draws score of left player
-   love.graphics.printf(tostring(GameState.score_left), -centerSpace, w_height / 8, w_width, "center")
+   love.graphics.printf(tostring(GameState.score_left), -center_margin, w_height / 8, w_width, "center")
    -- Draws score of right player
-   love.graphics.printf(tostring(GameState.score_right), centerSpace, w_height / 8, w_width, "center")
+   love.graphics.printf(tostring(GameState.score_right), center_margin, w_height / 8, w_width, "center")
+end
+
+function Ui:drawMiddleDashedLine() -- Draws a vertical dashed line through the middle of the screen
+   local center_x = w_width / 2
+   local start_point = 0
+   local end_point = w_height
+   local dash_length = 10
+   local dash_gap = 10
+
+   for y = start_point, end_point, dash_length + dash_gap do
+      if not GameState.is_started and y < w_height / 2 - FONT_SIZE * 3 or y > w_height / 2 + FONT_SIZE * 3 then
+         love.graphics.line(center_x, y, center_x, y + dash_length)
+      elseif GameState.is_started then
+         love.graphics.line(center_x, y, center_x, y + dash_length)
+      end
+   end
 end
 
 -- Core functions
@@ -33,4 +49,5 @@ end
 function Ui:draw()
    Ui:drawPressToStart(GameState.is_started)
    Ui:drawScores()
+   Ui:drawMiddleDashedLine()
 end
