@@ -49,7 +49,9 @@ function love.draw()
    Ui:draw()
    Player:draw()
    Ai:draw()
-   Ball:draw()
+   if GameState.is_started then
+      Ball:draw()
+   end
    GameState:draw()
    Debugger:draw()
 end

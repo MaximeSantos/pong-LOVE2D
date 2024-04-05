@@ -6,10 +6,10 @@ local score_font
 
 -- Helper functions
 function Ui:drawPressToStart() -- Draws "Press UP/DOWN to start" when the game hasn't started yet
-   -- Draw some text in the center of the screen
+   -- Draw some text in the very center of the screen
    if not GameState.is_started then
       love.graphics.setColor(1, 1, 1)
-      love.graphics.printf("Press UP/DOWN to start", 0, (w_height / 2) - (FONT_SIZE * 2), w_width, "center")
+      love.graphics.printf("Press UP/DOWN to start", 0, w_height / 2 - FONT_SIZE / 2, w_width, "center")
    end
 end
 
@@ -17,9 +17,9 @@ function Ui:drawScores()
    love.graphics.setFont(score_font)
    local center_margin = w_width / 8
    -- Draws score of left player
-   love.graphics.printf(tostring(GameState.score_left), -center_margin, w_height / 8, w_width, "center")
+   love.graphics.printf(tostring(GameState.score_left), -center_margin, w_height / 10, w_width, "center")
    -- Draws score of right player
-   love.graphics.printf(tostring(GameState.score_right), center_margin, w_height / 8, w_width, "center")
+   love.graphics.printf(tostring(GameState.score_right), center_margin, w_height / 10, w_width, "center")
 end
 
 function Ui:drawMiddleDashedLine() -- Draws a vertical dashed line through the middle of the screen
@@ -30,7 +30,7 @@ function Ui:drawMiddleDashedLine() -- Draws a vertical dashed line through the m
    local dash_gap = 10
 
    for y = start_point, end_point, dash_length + dash_gap do
-      if not GameState.is_started and y < w_height / 2 - FONT_SIZE * 3 or y > w_height / 2 + FONT_SIZE * 3 then
+      if not GameState.is_started and y < w_height / 2 - FONT_SIZE * 2 or y > w_height / 2 + FONT_SIZE * 2 then
          love.graphics.line(center_x, y, center_x, y + dash_length)
       elseif GameState.is_started then
          love.graphics.line(center_x, y, center_x, y + dash_length)
