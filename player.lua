@@ -31,14 +31,18 @@ function Player:checkPlayerInput() -- Checks for player 1 input
    return false
 end
 
--- Core functions
-function Player:load()
-   -- Set default player values
+function Player:reset() -- Set default player values
    self.width = 20
    self.height = 100
    self.x = 50
    self.y = (love.graphics.getHeight()) / 2 - (self.height / 2)
    self.speed = 500
+end
+
+-- Core functions
+function Player:load()
+   -- Set default player values
+   Player:reset()
 end
 
 function Player:update(dt)

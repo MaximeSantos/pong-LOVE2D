@@ -29,9 +29,7 @@ function Ai:checkBoundaries() -- Checks if the ai encounters a wall and sets its
    end
 end
 
--- Core functions
-function Ai:load()
-   -- Set default player values
+function Ai:reset() -- Set default ai values
    self.width = 20
    self.height = 100
    self.x = love.graphics.getWidth() - 50
@@ -39,9 +37,15 @@ function Ai:load()
    self.speed = 500
 end
 
+-- Core functions
+function Ai:load()
+   -- Set default ai values
+   Ai:reset()
+end
+
 function Ai:update(dt)
    if GameState.is_started then
-      Ai:move(dt)
+      -- Ai:move(dt)
       Ai:checkBoundaries(dt)
    end
 end

@@ -28,7 +28,10 @@ function Ball:collide() --
    Ball:bounceWalls()
 
    -- Check for goal collision
-   -- TODO Score goals when the ball hits either end of the board
+   local goal = Ball:checkGoal()
+   if goal == "left" or goal == "right" then
+      GameState:scoreGoal(goal)
+   end
 end
 
 -- TODO Improve handling of the bounce by including Player velocity (not yet implemented)
@@ -52,13 +55,21 @@ function Ball:bounceWalls() -- Checks if the ball is hitting the borders and rev
    end
 end
 
+function Ball:checkGoal() -- Checks if the ball hits either goals (the left or right walls) and returns nil, "left" or "right"
+   if Ball.x + Ball.width > love.graphics.getWidth() then
+      return "right"
+   elseif Ball.x < 0 then
+      return "left"
+   else
+      return nil
+   end
+end
+
 function Ball:startMoving(dx)
    self.dx = dx
 end
 
--- Core functions
-function Ball:load()
-   -- Set default ball values
+function Ball:reset() -- Set default ball values
    self.width = 10
    self.height = 10
    self.x = love.graphics.getWidth() / 2 - self.width / 2
@@ -66,6 +77,12 @@ function Ball:load()
    self.dx = 0
    self.dy = 0
    self.speed = 300
+end
+
+-- Core functions
+function Ball:load()
+   -- Set default ball values
+   Ball:reset()
 end
 
 function Ball:update(dt)
