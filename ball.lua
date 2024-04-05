@@ -17,11 +17,11 @@ end
 
 function Ball:collide() -- Logic that handles the different ball collisions (left/right paddles, top/bottom walls and left/right goals)
    -- Checks for Player collision
-   if checkCollisions(self, Player) then
+   if checkEntitiesCollisions(self, Player) then
       Ball:bouncePaddle(Player)
    end
    -- Checks for Ai collision -- TODO Improve because the ball probably goes deeper inside the paddle for the ai
-   if checkCollisions(self, Ai) then
+   if checkEntitiesCollisions(self, Ai) then
       Ball:bouncePaddle(Ai)
    end
 
@@ -62,9 +62,9 @@ function Ball:bouncePaddle(Paddle) -- Bouces the ball off the paddle - give it a
 end
 
 function Ball:bounceWalls() -- Checks if the ball is hitting the borders and reverses its vertical velocity if that's the case
-   if self.y + self.height > love.graphics.getHeight() then
+   if self.y + self.height > love.graphics.getHeight() and self.dy > 0 then -- checks bottom wall
       self.dy = -self.dy
-   elseif self.y < 0 then
+   elseif self.y < 0 and self.dy < 0 then -- check top wall
       self.dy = -self.dy
    end
 end
@@ -90,7 +90,7 @@ function Ball:reset() -- Set default ball values
    self.y = love.graphics.getHeight() / 2 - self.height / 2
    self.dx = 0
    self.dy = 0
-   self.speed = 300
+   self.speed = 600
    self.hits = 0
 end
 
