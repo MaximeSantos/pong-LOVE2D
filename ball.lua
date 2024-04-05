@@ -37,8 +37,8 @@ end
 
 function Ball:handleBallSpeed() -- Increments the number of hits and increase the ball speed if there have been 3 consecutive hits
    self.hits = self.hits + 1
-   if self.hits >= 3 then
-      self.speed = self.speed + 100
+   if self.hits >= 2 then
+      self.speed = self.speed + 50
       self.hits = 0
    end
 end
@@ -83,13 +83,19 @@ end
 
 function Ball:startMoving(dx)
    self.dx = dx
+   local rand = love.math.random()
+   if rand == 0 then
+      self.dy = -1
+   else
+      self.dy = 1
+   end
 end
 
 function Ball:reset() -- Set default ball values
    self.width = 10
    self.height = 10
    self.x = love.graphics.getWidth() / 2 - self.width / 2
-   self.y = love.graphics.getHeight() / 2 - self.height / 2
+   self.y = love.math.random(0, love.graphics.getHeight() - self.height)
    self.dx = 0
    self.dy = 0
    self.speed = 600
