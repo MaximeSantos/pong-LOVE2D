@@ -6,6 +6,7 @@ require("gamestate")
 require("debugger")
 
 FONT_SIZE = 16
+local font
 
 -- Helper functions
 -- TODO FIX Bug when handling hit detection on left player (ball coming from low angle, sliding off then through the paddle)
@@ -20,6 +21,8 @@ end
 function love.load()
    -- Settings not in conf.lua
    love.graphics.setDefaultFilter("nearest", "nearest")
+
+   font = love.graphics.newFont(FONT_SIZE)
 
    Ui:load()
    Player:load()
@@ -42,6 +45,7 @@ function love.update(dt)
 end
 
 function love.draw()
+   love.graphics.setFont(font)
    Ui:draw()
    Player:draw()
    Ai:draw()

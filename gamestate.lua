@@ -17,7 +17,7 @@ end
 function GameState:incrementScore(goal) -- Increment either GameState.score_left or score_right based on the given string "left" or "right"
    if goal == "left" then
       GameState.score_right = GameState.score_right + 1
-   elseif goal == "left" then
+   elseif goal == "right" then
       GameState.score_left = GameState.score_left + 1
    end
 end
