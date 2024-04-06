@@ -40,7 +40,7 @@ end
 
 -- Core functions
 function Ui:load()
-   score_font = love.graphics.newFont("assets/ToreksRegular.ttf", 100)
+   score_font = love.graphics.newFont("assets/fonts/slkscr.ttf", TITLE_FONT_SIZE)
 end
 
 function Ui:update(dt)

@@ -1,3 +1,4 @@
+require("startmenu")
 require("player")
 require("ai")
 require("ball")
@@ -6,7 +7,9 @@ require("gamestate")
 require("debugger")
 
 FONT_SIZE = 16
-local font
+TITLE_FONT_SIZE = FONT_SIZE * 8
+
+local normal_font
 
 -- Helper functions
 -- TODO FIX Bug when handling hit detection on left player (ball coming from low angle, sliding off then through the paddle)
@@ -19,8 +22,9 @@ function love.load()
    -- Settings not in conf.lua
    love.graphics.setDefaultFilter("nearest", "nearest")
 
-   font = love.graphics.newFont(FONT_SIZE)
+   normal_font = love.graphics.newFont("assets/fonts/slkscr.ttf", FONT_SIZE)
 
+   StartMenu:load()
    Ui:load()
    Player:load()
    Ai:load()
@@ -30,25 +34,33 @@ function love.load()
 end
 
 function love.update(dt)
-   GameState:checkStartOfGame()
-   Ui:update(dt)
-   GameState:update(dt)
+   if GameState.is_start_menu then -- Start Menu
+      StartMenu:update(dt)
+   else -- Actual game logic
+      GameState:checkStartOfGame()
+      Ui:update(dt)
+      GameState:update(dt)
 
-   if GameState.is_started then
-      Player:update(dt)
-      Ai:update(dt)
-      Ball:update(dt)
+      if GameState.is_started then
+         Player:update(dt)
+         Ai:update(dt)
+         Ball:update(dt)
+      end
    end
 end
 
 function love.draw()
-   love.graphics.setFont(font)
-   Ui:draw()
-   Player:draw()
-   Ai:draw()
-   if GameState.is_started then
-      Ball:draw()
+   if GameState.is_start_menu then
+      StartMenu:draw(s)
+   else
+      love.graphics.setFont(normal_font)
+      Ui:draw()
+      Player:draw()
+      Ai:draw()
+      if GameState.is_started then
+         Ball:draw()
+      end
+      GameState:draw()
+      Debugger:draw()
    end
-   GameState:draw()
-   Debugger:draw()
 end

@@ -1,5 +1,6 @@
 GameState = {
    is_started,
+   is_start_menu,
    score_left,
    score_right
 }
@@ -41,6 +42,7 @@ end
 
 -- Core functions
 function GameState:load()
+   self.is_start_menu = true
    self.is_started = false
    self.score_left = 0
    self.score_right = 0
