@@ -1,9 +1,4 @@
 Player = {
-   x,
-   y,
-   width,
-   height,
-   speed
 }
 
 -- Helper functions
@@ -47,7 +42,7 @@ end
 
 function Player:update(dt)
    Player:move(dt)
-   Player:checkBoundaries(dt)
+   Player:checkBoundaries()
 end
 
 function Player:draw()

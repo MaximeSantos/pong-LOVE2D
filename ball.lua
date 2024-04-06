@@ -1,15 +1,12 @@
 Ball = {
-   x,
-   y,
-   dx,
-   dy,
-   width,
-   height,
-   speed,
-   hits
 }
 
 -- Helper functions
+-- TODO FIX Bug when handling hit detection on left player (ball coming from low angle, sliding off then through the paddle)
+function Ball:checkEntitiesCollisions(a, b) -- Checks for collisions between two objects with x, y, width and height properties
+   return a.x < b.x + b.width and a.x + a.width > b.x and a.y < b.y + b.height and a.y + a.height > b.y
+end
+
 function Ball:move(dt)
    self.x = self.x + (self.speed * (self.dx * dt))
    self.y = self.y + (self.speed * (self.dy * dt))
@@ -17,11 +14,11 @@ end
 
 function Ball:collide() -- Logic that handles the different ball collisions (left/right paddles, top/bottom walls and left/right goals)
    -- Checks for Player collision
-   if checkEntitiesCollisions(self, Player) then
+   if Ball:checkEntitiesCollisions(self, Player) then
       Ball:bouncePaddle(Player)
    end
    -- Checks for Ai collision -- TODO Improve because the ball probably goes deeper inside the paddle for the ai
-   if checkEntitiesCollisions(self, Ai) then
+   if Ball:checkEntitiesCollisions(self, Ai) then
       Ball:bouncePaddle(Ai)
    end
 
@@ -48,7 +45,8 @@ end
 -- Whereas hitting the ball with a moving paddle should probably alway make the ball bounce at an angle
 function Ball:handleBounceAngle(Paddle) -- Handles the angle to give to the ball if it was going straight
    if self.dy == 0 then
-      local collision = (self.y + self.height / 2) - (Paddle.y + Paddle.height / 2) -- center of the ball on y axis - center of paddle on y axis
+      local collision = (self.y + self.height / 2) -
+          (Paddle.y + Paddle.height / 2) -- center of the ball on y axis - center of paddle on y axis
       if collision > 0 then
          self.dy = 1
       elseif collision < 0 then

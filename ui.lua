@@ -47,7 +47,7 @@ function Ui:update(dt)
 end
 
 function Ui:draw()
-   Ui:drawPressToStart(GameState.is_started)
+   Ui:drawPressToStart()
    Ui:drawScores()
    Ui:drawMiddleDashedLine()
 end

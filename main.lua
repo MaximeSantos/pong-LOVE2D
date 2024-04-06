@@ -12,10 +12,6 @@ TITLE_FONT_SIZE = FONT_SIZE * 8
 local normal_font
 
 -- Helper functions
--- TODO FIX Bug when handling hit detection on left player (ball coming from low angle, sliding off then through the paddle)
-function checkEntitiesCollisions(a, b) -- Checks for collisions between two objects with x, y, width and height properties
-   return a.x < b.x + b.width and a.x + a.width > b.x and a.y < b.y + b.height and a.y + a.height > b.y
-end
 
 -- Core functions
 function love.load()
@@ -36,7 +32,7 @@ end
 function love.update(dt)
    if GameState.is_start_menu then -- Start Menu
       StartMenu:update(dt)
-   else -- Actual game logic
+   else                            -- Actual game logic
       GameState:checkStartOfGame()
       Ui:update(dt)
       GameState:update(dt)
@@ -51,7 +47,7 @@ end
 
 function love.draw()
    if GameState.is_start_menu then
-      StartMenu:draw(s)
+      StartMenu:draw()
    else
       love.graphics.setFont(normal_font)
       Ui:draw()

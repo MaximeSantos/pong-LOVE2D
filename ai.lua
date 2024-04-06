@@ -1,11 +1,4 @@
 Ai = {
-   x,
-   y,
-   dx,
-   dy,
-   width,
-   height,
-   speed
 }
 
 -- Helper functions
@@ -45,7 +38,7 @@ end
 
 function Ai:update(dt)
    Ai:move(dt)
-   Ai:checkBoundaries(dt)
+   Ai:checkBoundaries()
 end
 
 function Ai:draw()

@@ -1,5 +1,5 @@
+-- TODO A table of select options on the start menu
 StartMenu = {
-   menu_select -- TODO A table of select options on the start menu
 }
 
 local w_height = love.graphics.getHeight()

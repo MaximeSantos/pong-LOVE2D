@@ -1,8 +1,4 @@
 GameState = {
-   is_started,
-   is_start_menu,
-   score_left,
-   score_right
 }
 
 -- Helper functions

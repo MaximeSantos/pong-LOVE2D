@@ -1,5 +1,4 @@
 Debugger = {
-   msg
 }
 
 -- Helper functions
@@ -7,7 +6,7 @@ function Debugger:append(string)
    self.msg = self.msg .. " " .. string
 end
 
-function Debugger:clear(string)
+function Debugger:clear()
    self.msg = ""
 end
 
