@@ -24,9 +24,23 @@ function StartMenu:pressEnterToStart() -- Draws the prompt to start the game
    love.graphics.printf("Press Enter to select", 0, w_height / 2, w_width, "center")
 end
 
-function StartMenu:actions() -- For now only starts the game // will allow selection of start menu entries with the Enter key
-   if love.keyboard.isDown("return") then
-      GameState.is_start_menu = false
+function StartMenu:actions() -- Selects the gamemode with up/down and launches with enter
+   function love.keypressed(_, scancode)
+      if scancode == "return" or scancode == "space" then
+         GameState.is_start_menu = false
+      elseif scancode == "w" or scancode == "up" then
+         if self.selected > 1 then
+            self.selected = self.selected - 1
+         else
+            self.selected = #self.select_options
+         end
+      elseif scancode == "s" or scancode == "down" then
+         if self.selected < #self.select_options then
+            self.selected = self.selected + 1
+         else
+            self.selected = 1
+         end
+      end
    end
 end
 
@@ -46,6 +60,7 @@ function StartMenu:checkIsSelected(index)
    return index == self.selected
 end
 
+-- TODO Replace underline with an arrow
 function StartMenu:drawSelectOptions()
    -- print(normal_font:getWidth("prout")) Gets the width of the text
    local select_options_pos = { x = w_width / 2 - FONT_SIZE * 3, y = w_height / 2 }
@@ -79,7 +94,7 @@ function StartMenu:load()
    self.selected = 1
 end
 
-function StartMenu:update(dt)
+function StartMenu:update()
    StartMenu:actions()
 end
 

@@ -31,7 +31,7 @@ end
 
 function love.update(dt)
    if GameState.is_start_menu then -- Start Menu
-      StartMenu:update(dt)
+      StartMenu:update()
    else                            -- Actual game logic
       GameState:checkStartOfGame()
       Ui:update(dt)
