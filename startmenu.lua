@@ -30,15 +30,38 @@ function StartMenu:actions() -- For now only starts the game // will allow selec
    end
 end
 
+--- @param string string
+--- @param pos_x integer
+--- @param pos_y integer
+function StartMenu:underline(string, pos_x, pos_y)
+   local string_width = normal_font:getWidth(string)
+   local end_line_x = pos_x + string_width
+
+   love.graphics.setLineWidth(2)
+   love.graphics.line(pos_x, pos_y + FONT_SIZE, end_line_x, pos_y + FONT_SIZE)
+end
+
+--- @param index integer
+function StartMenu:checkIsSelected(index)
+   return index == self.selected
+end
+
 function StartMenu:drawSelectOptions()
    -- print(normal_font:getWidth("prout")) Gets the width of the text
-   local select_options_vect = { x = w_width / 2 - FONT_SIZE * 3, y = w_height / 2 + FONT_SIZE * 2 }
+   local select_options_pos = { x = w_width / 2 - FONT_SIZE * 3, y = w_height / 2 }
    local line_height = FONT_SIZE * 2
 
-   love.graphics.printf(self.select_options[1], select_options_vect.x, select_options_vect.y, w_width)
-   love.graphics.printf(self.select_options[2], select_options_vect.x, select_options_vect.y + line_height, w_width)
-   love.graphics.printf(self.select_options[3], select_options_vect.x, select_options_vect.y + line_height * 2,
-      w_width)
+   for i = 1, #self.select_options do -- Goes through our select options and print them
+      local string_to_print = self.select_options[i]
+      local pos_x = select_options_pos.x
+      local pos_y = select_options_pos.y + line_height * i
+
+      love.graphics.printf(string_to_print, pos_x, pos_y, w_width) -- Prints the select option
+
+      if StartMenu:checkIsSelected(i) then                         -- Underlines current select option if it is selected
+         StartMenu:underline(string_to_print, pos_x, pos_y)
+      end
+   end
 end
 
 -- Core functions
