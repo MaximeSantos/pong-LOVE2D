@@ -1,16 +1,28 @@
 Player = {
-   id = 1,
+   id = 1, -- Must be 1 or 2
    width = 20,
    height = 100,
    speed = 500,
 }
 
--- Construction
-function Player:new(o)
-   self.x = 50
-   self.y = (love.graphics.getHeight()) / 2 - (self.height / 2)
+local paddle_margin = 50
+local paddle_y_pos = (love.graphics.getHeight()) / 2 - (Player.height / 2)
 
+--- Constructor
+--- @param id integer
+--- @param o table?
+function Player:new(id, o)
    o = o or {} -- create object if user does not provide one
+
+   o.id = id
+
+   if o.id == 1 then
+      o.x = paddle_margin
+   elseif o.id == 2 then
+      o.x = love.graphics.getWidth() - paddle_margin
+   end
+   o.y = paddle_y_pos
+
    setmetatable(o, self)
    self.__index = self
    return o
@@ -18,14 +30,23 @@ end
 
 -- Helper functions
 function Player:move(dt) -- Checks for player input and set player position accordingly
-   if love.keyboard.isDown("w") or love.keyboard.isDown("z") then
-      self.y = self.y - self.speed * dt
-   elseif love.keyboard.isDown("s") then
-      self.y = self.y + self.speed * dt
+   if self.id == 1 then
+      if love.keyboard.isDown("w") or love.keyboard.isDown("z") then
+         self.y = self.y - self.speed * dt
+      elseif love.keyboard.isDown("s") then
+         self.y = self.y + self.speed * dt
+      end
+   elseif self.id == 2 then
+      if love.keyboard.isDown("up") then
+         self.y = self.y - self.speed * dt
+      elseif love.keyboard.isDown("down") then
+         self.y = self.y + self.speed * dt
+      end
    end
 end
 
-function Player:checkBoundaries() -- Checks if the player encounters a wall and sets its position accordingly
+--- Checks if the player encounters a wall and sets its position accordingly
+function Player:checkBoundaries()
    local w_height = love.graphics.getHeight()
    if self.y < 0 then
       self.y = 0
@@ -34,22 +55,28 @@ function Player:checkBoundaries() -- Checks if the player encounters a wall and 
    end
 end
 
-function Player:checkPlayerInput() -- Checks for player 1 input
+--- Checks for input from the serving player
+function Player:checkPlayerInput()
    if love.keyboard.isDown("w") or love.keyboard.isDown("z") or love.keyboard.isDown("s") then
       return true
    end
    return false
 end
 
-function Player:reset() -- Set default player values
-   self.x = 50
-   self.y = (love.graphics.getHeight()) / 2 - (self.height / 2)
+--- Resets player values
+function Player:reset()
+   if self.id == 1 then
+      self.x = paddle_margin
+   elseif self.id == 2 then
+      self.x = love.graphics.getWidth() - paddle_margin
+   end
+   self.y = paddle_y_pos
 end
 
 -- Core functions
+
 function Player:load()
-   -- Set default player values
-   self:reset()
+   -- self:reset()
 end
 
 function Player:update(dt)

@@ -16,6 +16,8 @@ function Ball:collide(player_1, player_2) -- Logic that handles the different ba
    -- Checks for Player collision
    if Ball:checkEntitiesCollisions(self, player_1) then
       Ball:bouncePaddle(player_1)
+   elseif Ball:checkEntitiesCollisions(self, player_2) then
+      Ball:bouncePaddle(player_2)
    end
    -- Checks for Ai collision -- TODO Improve because the ball probably goes deeper inside the paddle for the ai
    if Ball:checkEntitiesCollisions(self, Ai) then

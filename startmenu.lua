@@ -30,10 +30,23 @@ function StartMenu:pressEnterToStart() -- Draws the prompt to start the game
    love.graphics.printf("Press Enter to select", 0, w_height / 2, w_width, "center")
 end
 
+-- Check which option is selected (only 1 & 2 players for now -- TODO SETTING)
+function StartMenu:select()
+   if self.selected == 1 then
+      GameState:setIsMultiplayer(false) -- Launches single player VS the AI
+   elseif self.selected == 2 then
+      GameState:setIsMultiplayer(true)  -- Launches local 2 player game
+   elseif self.selected == 3 then
+      Debugger:appendThenClear("Not implemented yet.")
+      return
+   end
+   GameState:setIsStartMenu(false) -- Closes the start menu and starts the game
+end
+
 function StartMenu:actions() -- Selects the gamemode with up/down and launches with enter
    function love.keypressed(_, scancode)
       if scancode == "return" or scancode == "space" then
-         GameState:setIsStartMenu(false)
+         self:select()
       elseif scancode == "w" or scancode == "up" then
          if self.selected > 1 then
             self.selected = self.selected - 1
@@ -68,7 +81,6 @@ end
 
 -- TODO Replace underline with an arrow
 function StartMenu:drawSelectOptions()
-   -- print(normal_font:getWidth("prout")) Gets the width of the text
    local select_options_pos = { x = w_width / 2 - FONT_SIZE * 3, y = w_height / 2 }
    local line_height = FONT_SIZE * 2
 
