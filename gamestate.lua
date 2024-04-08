@@ -24,7 +24,7 @@ end
 -- TODO Lock the controls (player & ai) for a certain amount of time after reseting to prevent accidentaly relaunching the ball
 -- TODO Check if there is a need to reset player_2 (are we VS the AI ?)
 function GameState:resetState(player_1, player_2) -- Resets the game back to its initial state (keeping the score)
-   GameState.is_started = false
+   self:setIsStarted(false)
    player_1:reset()
    player_2:reset()
    Ai:reset()
@@ -36,8 +36,14 @@ function GameState:scoreGoal(goal, player_1, player_2) -- Score a goal by adjust
    GameState:resetState(player_1, player_2)
 end
 
-function GameState:setIsStarted(boolean)
+--- @param boolean boolean
+function GameState:setIsStarted(boolean) -- Sets GameState.is_started to true or false
    self.is_started = boolean
+end
+
+--- @param boolean boolean
+function GameState:setIsStartMenu(boolean) -- Sets GameState.is_start_menu to true or false
+   self.is_start_menu = boolean
 end
 
 -- Core functions

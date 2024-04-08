@@ -33,7 +33,7 @@ end
 function StartMenu:actions() -- Selects the gamemode with up/down and launches with enter
    function love.keypressed(_, scancode)
       if scancode == "return" or scancode == "space" then
-         GameState.is_start_menu = false -- TODO Probably better to add a setter to GameState for that
+         GameState:setIsStartMenu(false)
       elseif scancode == "w" or scancode == "up" then
          if self.selected > 1 then
             self.selected = self.selected - 1
