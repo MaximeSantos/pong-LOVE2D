@@ -1,4 +1,10 @@
 StartMenu = {
+   select_options = { --  The different select options to display on the start menu
+      "1 player",
+      "2 players",
+      "settings"
+   },
+   selected = 1 -- The index of the currently selected option on the start menu
 }
 
 local w_height = love.graphics.getHeight()
@@ -27,7 +33,7 @@ end
 function StartMenu:actions() -- Selects the gamemode with up/down and launches with enter
    function love.keypressed(_, scancode)
       if scancode == "return" or scancode == "space" then
-         GameState.is_start_menu = false
+         GameState.is_start_menu = false -- TODO Probably better to add a setter to GameState for that
       elseif scancode == "w" or scancode == "up" then
          if self.selected > 1 then
             self.selected = self.selected - 1
@@ -73,8 +79,8 @@ function StartMenu:drawSelectOptions()
 
       love.graphics.printf(string_to_print, pos_x, pos_y, w_width) -- Prints the select option
 
-      if StartMenu:checkIsSelected(i) then                         -- Underlines current select option if it is selected
-         StartMenu:underline(string_to_print, pos_x, pos_y)
+      if self:checkIsSelected(i) then                              -- Underlines current select option if it is selected
+         self:underline(string_to_print, pos_x, pos_y)
       end
    end
 end
@@ -83,23 +89,14 @@ end
 function StartMenu:load()
    title_font = love.graphics.newFont("assets/fonts/slkscr.ttf", TITLE_FONT_SIZE)
    normal_font = love.graphics.newFont("assets/fonts/slkscr.ttf", FONT_SIZE)
-
-   --  Sets the different select options to display on the start menu
-   self.select_options = {
-      "1 player",
-      "2 players",
-      "settings"
-   }
-   -- The index of the currently selected option on the start menu
-   self.selected = 1
 end
 
 function StartMenu:update()
-   StartMenu:actions()
+   self:actions()
 end
 
 function StartMenu:draw()
-   StartMenu:drawTitle()
-   StartMenu:pressEnterToStart()
-   StartMenu:drawSelectOptions()
+   self:drawTitle()
+   self:pressEnterToStart()
+   self:drawSelectOptions()
 end
