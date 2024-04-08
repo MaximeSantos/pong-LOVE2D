@@ -1,5 +1,20 @@
 Player = {
+   id = 1,
+   width = 20,
+   height = 100,
+   speed = 500,
 }
+
+-- Construction
+function Player:new(o)
+   self.x = 50
+   self.y = (love.graphics.getHeight()) / 2 - (self.height / 2)
+
+   o = o or {} -- create object if user does not provide one
+   setmetatable(o, self)
+   self.__index = self
+   return o
+end
 
 -- Helper functions
 function Player:move(dt) -- Checks for player input and set player position accordingly
@@ -27,22 +42,19 @@ function Player:checkPlayerInput() -- Checks for player 1 input
 end
 
 function Player:reset() -- Set default player values
-   self.width = 20
-   self.height = 100
    self.x = 50
    self.y = (love.graphics.getHeight()) / 2 - (self.height / 2)
-   self.speed = 500
 end
 
 -- Core functions
 function Player:load()
    -- Set default player values
-   Player:reset()
+   self:reset()
 end
 
 function Player:update(dt)
-   Player:move(dt)
-   Player:checkBoundaries()
+   self:move(dt)
+   self:checkBoundaries()
 end
 
 function Player:draw()

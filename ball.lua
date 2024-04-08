@@ -12,10 +12,10 @@ function Ball:move(dt)
    self.y = self.y + (self.speed * (self.dy * dt))
 end
 
-function Ball:collide() -- Logic that handles the different ball collisions (left/right paddles, top/bottom walls and left/right goals)
+function Ball:collide(player_1, player_2) -- Logic that handles the different ball collisions (left/right paddles, top/bottom walls and left/right goals)
    -- Checks for Player collision
-   if Ball:checkEntitiesCollisions(self, Player) then
-      Ball:bouncePaddle(Player)
+   if Ball:checkEntitiesCollisions(self, player_1) then
+      Ball:bouncePaddle(player_1)
    end
    -- Checks for Ai collision -- TODO Improve because the ball probably goes deeper inside the paddle for the ai
    if Ball:checkEntitiesCollisions(self, Ai) then
@@ -28,7 +28,7 @@ function Ball:collide() -- Logic that handles the different ball collisions (lef
    -- Check for goal collision
    local goal = Ball:checkGoal()
    if goal == "left" or goal == "right" then
-      GameState:scoreGoal(goal)
+      GameState:scoreGoal(goal, player_1, player_2)
    end
 end
 
@@ -117,9 +117,9 @@ function Ball:load()
    Ball:reset()
 end
 
-function Ball:update(dt)
+function Ball:update(dt, player_1, player_2)
    Ball:move(dt)
-   Ball:collide()
+   Ball:collide(player_1, player_2)
 end
 
 function Ball:draw()

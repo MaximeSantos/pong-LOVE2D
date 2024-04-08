@@ -2,9 +2,11 @@ GameState = {
 }
 
 -- Helper functions
-function GameState:checkStartOfGame()
+-- TODO Check only for the player who serves the ball
+-- TODO Make the ball go toward the serving player
+function GameState:checkStartOfGame(player_1, player_2)
    if not self.is_started then
-      if Player:checkPlayerInput() then
+      if player_1:checkPlayerInput() or player_2:checkPlayerInput() then
          self.is_started = true
          Ball:startMoving(-1)
       end
@@ -20,16 +22,18 @@ function GameState:incrementScore(goal) -- Increment either GameState.score_left
 end
 
 -- TODO Lock the controls (player & ai) for a certain amount of time after reseting to prevent accidentaly relaunching the ball
-function GameState:resetState() -- Resets the game back to its initial state (keeping the score)
+-- TODO Check if there is a need to reset player_2 (are we VS the AI ?)
+function GameState:resetState(player_1, player_2) -- Resets the game back to its initial state (keeping the score)
    GameState.is_started = false
-   Player:reset()
+   player_1:reset()
+   player_2:reset()
    Ai:reset()
    Ball:reset()
 end
 
-function GameState:scoreGoal(goal) -- Score a goal by adjusting the score and resetting the state
+function GameState:scoreGoal(goal, player_1, player_2) -- Score a goal by adjusting the score and resetting the state
    GameState:incrementScore(goal)
-   GameState:resetState()
+   GameState:resetState(player_1, player_2)
 end
 
 function GameState:setIsStarted(boolean)

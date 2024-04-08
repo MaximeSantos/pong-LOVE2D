@@ -1,4 +1,9 @@
 Ai = {
+   width = 20,
+   height = 100,
+   speed = 500,
+   x = love.graphics.getWidth() - 50
+
 }
 
 -- Helper functions
@@ -23,11 +28,7 @@ function Ai:checkBoundaries() -- Checks if the ai encounters a wall and sets its
 end
 
 function Ai:reset() -- Set default ai values
-   self.width = 20
-   self.height = 100
-   self.x = love.graphics.getWidth() - 50
    self.y = (love.graphics.getHeight()) / 2 - (self.height / 2)
-   self.speed = 500
 end
 
 -- Core functions
