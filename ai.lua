@@ -7,7 +7,9 @@ Ai = {
 }
 
 -- Helper functions
-function Ai:move(dt) -- The ai moves toward the y axis of the ball
+
+--- The ai moves toward the y axis of the ball
+function Ai:move(dt)
    local ball_center = Ball.y + Ball.height / 2
    local ai_center = self.y + self.height / 2
    --  Compare ball y position to ai y position and change dy accordingly
@@ -18,7 +20,8 @@ function Ai:move(dt) -- The ai moves toward the y axis of the ball
    end
 end
 
-function Ai:checkBoundaries() -- Checks if the ai encounters a wall and sets its position accordingly
+--- Checks if the ai encounters a wall and sets its position accordingly
+function Ai:checkBoundaries()
    local w_height = love.graphics.getHeight()
    if self.y < 0 then
       self.y = 0
@@ -27,11 +30,13 @@ function Ai:checkBoundaries() -- Checks if the ai encounters a wall and sets its
    end
 end
 
-function Ai:reset() -- Set default ai values
+--- Set default ai values
+function Ai:reset()
    self.y = (love.graphics.getHeight()) / 2 - (self.height / 2)
 end
 
 -- Core functions
+
 function Ai:load()
    -- Set default ai values
    Ai:reset()

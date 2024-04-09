@@ -1,9 +1,15 @@
 Ball = {
+   width = 10,
+   height = 10,
+   speed = 500
+
 }
 
 -- Helper functions
 -- TODO FIX Bug when handling hit detection on left player (ball coming from low angle, sliding off then through the paddle)
-function Ball:checkEntitiesCollisions(a, b) -- Checks for collisions between two objects with x, y, width and height properties
+
+--- Checks for collisions between two objects with x, y, width and height properties
+function Ball:checkEntitiesCollisions(a, b)
    return a.x < b.x + b.width and a.x + a.width > b.x and a.y < b.y + b.height and a.y + a.height > b.y
 end
 
@@ -12,13 +18,15 @@ function Ball:move(dt)
    self.y = self.y + (self.speed * (self.dy * dt))
 end
 
-function Ball:collide(player_1, player_2) -- Logic that handles the different ball collisions (left/right paddles, top/bottom walls and left/right goals)
+--- Logic that handles the different ball collisions (left/right paddles, top/bottom walls and left/right goals)
+function Ball:collide(player_1, player_2)
    -- Checks for Player collision
    if Ball:checkEntitiesCollisions(self, player_1) then
       Ball:bouncePaddle(player_1)
    elseif Ball:checkEntitiesCollisions(self, player_2) then
       Ball:bouncePaddle(player_2)
    end
+
    -- Checks for Ai collision -- TODO Improve because the ball probably goes deeper inside the paddle for the ai
    if Ball:checkEntitiesCollisions(self, Ai) then
       Ball:bouncePaddle(Ai)
@@ -103,13 +111,10 @@ function Ball:startMoving(dx)
 end
 
 function Ball:reset() -- Set default ball values
-   self.width = 10
-   self.height = 10
    self.x = love.graphics.getWidth() / 2 - self.width / 2
    self.y = love.math.random(0, love.graphics.getHeight() - self.height)
    self.dx = 0
    self.dy = 0
-   self.speed = 500
    self.hits = 0
 end
 

@@ -29,7 +29,9 @@ function Player:new(id, o)
 end
 
 -- Helper functions
-function Player:move(dt) -- Checks for player input and set player position accordingly
+
+--- Checks for player input and set player position accordingly
+function Player:move(dt)
    if self.id == 1 then
       if love.keyboard.isDown("w") or love.keyboard.isDown("z") then
          self.y = self.y - self.speed * dt
@@ -76,7 +78,6 @@ end
 -- Core functions
 
 function Player:load()
-   -- self:reset()
 end
 
 function Player:update(dt)

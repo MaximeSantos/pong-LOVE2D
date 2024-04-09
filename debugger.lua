@@ -2,6 +2,7 @@ Debugger = {
 }
 
 -- Helper functions
+
 --- Appends a new message to the debugger
 --- @param s string
 function Debugger:append(s)
@@ -31,6 +32,7 @@ function Debugger:reset()
 end
 
 -- Core functions
+
 function Debugger:load()
    self:reset()
 end

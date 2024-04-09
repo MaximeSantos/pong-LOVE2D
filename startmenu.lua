@@ -14,6 +14,7 @@ local title_font
 local normal_font
 
 -- Helper functions
+
 function StartMenu:drawTitle() -- Draws the title and subtitle
    local title_y_pos = TITLE_FONT_SIZE / 2
    local subtitle_y_pos = title_y_pos + TITLE_FONT_SIZE + FONT_SIZE / 2
@@ -25,12 +26,13 @@ function StartMenu:drawTitle() -- Draws the title and subtitle
    love.graphics.printf("A game made in lua with the LOVE2D engine", 0, subtitle_y_pos, w_width, "center")
 end
 
-function StartMenu:pressEnterToStart() -- Draws the prompt to start the game
+--- Draws the prompt to start the game
+function StartMenu:pressEnterToStart()
    -- love.graphics.setFont(title_font)
    love.graphics.printf("Press Enter to select", 0, w_height / 2, w_width, "center")
 end
 
--- Check which option is selected (only 1 & 2 players for now -- TODO SETTING)
+--- Check which option is selected (only 1 & 2 players for now -- TODO SETTING)
 function StartMenu:select()
    if self.selected == 1 then
       GameState:setIsMultiplayer(false) -- Launches single player VS the AI
@@ -43,7 +45,8 @@ function StartMenu:select()
    GameState:setIsStartMenu(false) -- Closes the start menu and starts the game
 end
 
-function StartMenu:actions() -- Selects the gamemode with up/down and launches with enter
+--- Selects the gamemode with up/down and launches with enter
+function StartMenu:actions()
    function love.keypressed(_, scancode)
       if scancode == "return" or scancode == "space" then
          self:select()
@@ -80,6 +83,7 @@ function StartMenu:checkIsSelected(index)
 end
 
 -- TODO Replace underline with an arrow
+
 function StartMenu:drawSelectOptions()
    local select_options_pos = { x = w_width / 2 - FONT_SIZE * 3, y = w_height / 2 }
    local line_height = FONT_SIZE * 2
@@ -98,6 +102,7 @@ function StartMenu:drawSelectOptions()
 end
 
 -- Core functions
+
 function StartMenu:load()
    title_font = love.graphics.newFont("assets/fonts/slkscr.ttf", TITLE_FONT_SIZE)
    normal_font = love.graphics.newFont("assets/fonts/slkscr.ttf", FONT_SIZE)
