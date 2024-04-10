@@ -6,7 +6,6 @@ Ball = {
 }
 
 -- Helper functions
--- TODO FIX Bug when handling hit detection on left player (ball coming from low angle, sliding off then through the paddle)
 
 --- Checks for collisions between two objects with x, y, width and height properties
 function Ball:checkEntitiesCollisions(a, b)
@@ -27,7 +26,7 @@ function Ball:collide(player_1, player_2)
       Ball:bouncePaddle(player_2)
    end
 
-   -- Checks for Ai collision -- TODO Improve because the ball probably goes deeper inside the paddle for the ai
+   -- Checks for Ai collision
    if Ball:checkEntitiesCollisions(self, Ai) then
       Ball:bouncePaddle(Ai)
    end
