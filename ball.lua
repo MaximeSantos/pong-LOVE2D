@@ -5,6 +5,10 @@ Ball = {
 
 }
 
+local sfx_paddle_hit
+local sfx_wall_hit
+
+
 -- Helper functions
 
 --- Checks for collisions between two objects with x, y, width and height properties
@@ -74,6 +78,7 @@ function Ball:bouncePaddle(Paddle) -- Bouces the ball off the paddle - give it a
    end
 
    self.dx = -self.dx -- Reverses the direction of the ball
+   sfx_paddle_hit:play()
    Ball:handleBounceAngle(Paddle)
 end
 
@@ -83,9 +88,11 @@ function Ball:bounceWalls() -- Checks if the ball is hitting the borders and rep
    if self.y + self.height > w_height then -- checks bottom wall
       self.y = w_height - self.height
       self.dy = -self.dy
+      sfx_wall_hit:play()
    elseif self.y < 0 then -- check top wall
       self.y = 0
       self.dy = -self.dy
+      sfx_wall_hit:play()
    end
 end
 
@@ -121,6 +128,9 @@ end
 function Ball:load()
    -- Set default ball values
    Ball:reset()
+
+   sfx_paddle_hit = love.audio.newSource("assets/sounds/pong_paddle_hit.wav", "static")
+   sfx_wall_hit = love.audio.newSource("assets/sounds/pong_wall_hit.wav", "static")
 end
 
 function Ball:update(dt, player_1, player_2)
