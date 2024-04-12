@@ -45,7 +45,8 @@ function Ball:collide(player_1, player_2)
    end
 end
 
-function Ball:handleBallSpeed() -- Increments the number of hits and increase the ball speed if there have been 3 consecutive hits
+--- Increments the number of hits and increase the ball speed if there have been 3 consecutive hits
+function Ball:handleBallSpeed()
    self.hits = self.hits + 1
    if self.hits > 2 then
       self.speed = self.speed + 100
@@ -56,7 +57,9 @@ end
 -- TODO the bounce angle of the ball should probably be determined by the paddle velocity ?
 -- eg: if the paddle is not moving and it hits around the center, the ball should probably fly straight
 -- Whereas hitting the ball with a moving paddle should probably alway make the ball bounce at an angle
-function Ball:handleBounceAngle(Paddle) -- Handles the angle to give to the ball if it was going straight
+
+--- Handles the angle to give to the ball if it was going straight
+function Ball:handleBounceAngle(Paddle)
    if self.dy == 0 then
       local collision = (self.y + self.height / 2) -
           (Paddle.y + Paddle.height / 2) -- center of the ball on y axis - center of paddle on y axis
@@ -68,7 +71,8 @@ function Ball:handleBounceAngle(Paddle) -- Handles the angle to give to the ball
    end
 end
 
-function Ball:bouncePaddle(Paddle) -- Bouces the ball off the paddle - give it an object with y and height properties
+--- Bouces the ball off the paddle - give it an object with y and height properties
+function Ball:bouncePaddle(Paddle)
    Ball:handleBallSpeed()
 
    if self.x < love.graphics.getWidth() / 2 then -- Places the ball outside of the paddle
@@ -82,7 +86,8 @@ function Ball:bouncePaddle(Paddle) -- Bouces the ball off the paddle - give it a
    Ball:handleBounceAngle(Paddle)
 end
 
-function Ball:bounceWalls() -- Checks if the ball is hitting the borders and repositions the ball and reverses its vertical velocity if it is hitting a wall
+--- Checks if the ball is hitting the borders and repositions the ball and reverses its vertical velocity if it is hitting a wall
+function Ball:bounceWalls()
    local w_height = love.graphics.getHeight()
 
    if self.y + self.height > w_height then -- checks bottom wall
@@ -96,7 +101,8 @@ function Ball:bounceWalls() -- Checks if the ball is hitting the borders and rep
    end
 end
 
-function Ball:checkGoal() -- Checks if the ball hits either goals (the left or right walls) and returns nil, "left" or "right"
+--- Checks if the ball hits either goals (the left or right walls) and returns nil, "left" or "right"
+function Ball:checkGoal()
    if Ball.x + Ball.width > love.graphics.getWidth() then
       return "right"
    elseif Ball.x < 0 then
@@ -116,7 +122,8 @@ function Ball:startMoving(dx)
    end
 end
 
-function Ball:reset() -- Set default ball values
+--- Set default ball values
+function Ball:reset()
    self.x = love.graphics.getWidth() / 2 - self.width / 2
    self.y = love.math.random(0, love.graphics.getHeight() - self.height)
    self.dx = 0
@@ -125,6 +132,7 @@ function Ball:reset() -- Set default ball values
 end
 
 -- Core functions
+
 function Ball:load()
    -- Set default ball values
    Ball:reset()
